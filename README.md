@@ -15,12 +15,18 @@ Aplicação front-end de painel administrativo para gestão de vendas, criada co
 
 ## Estrutura
 
-- `src/App.jsx` — componente principal com dashboard, navegação e CRUD
-- `src/main.jsx` — entrada do React
-- `src/index.css` — estilos globais e configuração Tailwind
-- `vite.config.js` — configuração do Vite
-- `tailwind.config.js` — configuração do Tailwind CSS
-- `postcss.config.js` — configuração do PostCSS
+Arquitetura organizada por feature e responsabilidades:
+
+- `src/App.jsx` - ponto de entrada da aplicacao
+- `src/features/salesDashboard/pages` - composicao da tela principal
+- `src/features/salesDashboard/components` - componentes de interface reutilizaveis da feature
+- `src/features/salesDashboard/hooks` - hooks com estado e fluxo da feature
+- `src/features/salesDashboard/services` - regras de negocio e transformacao de dados
+- `src/features/salesDashboard/constants` - dados iniciais e constantes de navegacao
+- `src/features/salesDashboard/config` - metadados de secoes (titulos, colunas, descricoes)
+- `src/features/salesDashboard/utils` - utilitarios puros
+- `src/main.jsx` - bootstrap do React
+- `src/index.css` - estilos globais e Tailwind
 
 ## Como rodar
 
