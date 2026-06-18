@@ -16,7 +16,7 @@ export function createClient(payload) {
         body: JSON.stringify(payload),
     });
 }
-
+//atualizando o cliente, passando o id e o payload com os dados atualizados
 export function updateClient(id, payload) {
     return apiClient(`${CLIENT_PATH}/${id}`, {
         method: 'PUT',
