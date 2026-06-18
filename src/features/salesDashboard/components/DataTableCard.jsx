@@ -59,7 +59,7 @@ function DataTableCard({
               filteredItems.map((item) => {
                 const isClient = activeSection === 'clientes';
                 const isProduct = activeSection === 'produtos';
-                const clientName = clients.find((client) => client.id === item.clienteId)?.nome || '-';
+                const clientName = clients.find((client) => client.id === item.clienteId)?.id || '-';
 
                 return (
                   <tr key={item.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50">
@@ -67,7 +67,7 @@ function DataTableCard({
                       {isClient ? item.nome : isProduct ? item.nome : clientName}
                     </td>
                     <td className="px-4 py-4 text-slate-500 dark:text-slate-400">
-                      {isClient ? item.email : isProduct ? item.categoria : item.data}
+                      {isClient ? item.email : isProduct ? item.descricao : item.data}
                     </td>
                     <td className="px-4 py-4 text-slate-500 dark:text-slate-400">
                       {isClient
@@ -77,7 +77,7 @@ function DataTableCard({
                           : formatCurrency(item.valorTotal)}
                     </td>
                     <td className="px-4 py-4 text-slate-500 dark:text-slate-400">
-                      {isClient ? item.cpf : isProduct ? item.estoque : '-'}
+                      {isClient ? item.cpf : isProduct ? item.ativo ? 'Sim': 'Nao': '-'}
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">

@@ -11,6 +11,18 @@ import { getClients } from '../api/clienteApi';
 import { createClient } from '../api/clienteApi';
 import { updateClient } from '../api/clienteApi';
 import { deleteClient } from '../api/clienteApi';
+import { getOrders } from '../api/orderApi';
+import { getOrderById } from '../api/orderApi';
+import { createOrder } from '../api/orderApi';
+import { updateOrder } from '../api/orderApi';
+import { deleteOrder } from '../api/orderApi';
+import { getProduct } from '../api/productApi';
+import { getProductById } from '../api/productApi';
+import { createProduct } from '../api/productApi';
+import { updateProduct } from '../api/productApi';
+import { deleteProduct } from '../api/productApi';
+
+
 
 export function useSalesDashboard() {
     const [activeSection, setActiveSection] = useState('clientes');
@@ -21,10 +33,16 @@ export function useSalesDashboard() {
     });
     const [isLoadingClients, setIsLoadingClients] = useState(false);
     const [clientsError, setClientsError] = useState('');
+    const [isLoadingOrders, setIsLoadingOrders] = useState(false);
+    const [ordersError, setOrdersError] = useState('');
+    const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+    const [productsError, setProductsError] = useState('');
     const [search, setSearch] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editing, setEditing] = useState(null);
 
+
+    //Carrega os clientes do servidor quando o componente é montado
     useEffect(() => {
         async function loadClients() {
             try {
@@ -45,6 +63,51 @@ export function useSalesDashboard() {
 
         loadClients();
     }, []);
+
+
+    useEffect(() => {
+        async function loadOrders() {
+            try {
+                setIsLoadingOrders(true);
+                setOrdersError('');
+
+                const orders = await getOrders();
+                setDataSets((prev) => ({
+                    ...prev,
+                    pedidos: orders,
+                }));
+            } catch (error) {
+                setOrdersError(error.message || 'Nao foi possivel carregar os pedidos.');
+            } finally {
+                setIsLoadingOrders(false);
+            }
+        }
+
+        loadOrders();
+    }, []);
+
+    useEffect(()=>{
+        async function loadProducts(){
+
+            try {
+            setIsLoadingProducts(true);
+            setProductsError('');
+            
+            const products = await getProducts();
+            setDataSets((prev) => ({
+                ...prev,
+                produtos: products,
+            }));
+        } 
+        catch (error) {            
+            setProductsError(error.message || 'Nao foi possivel carregar os produtos.');
+        } 
+        finally {            
+            setIsLoadingProducts(false);
+            }
+        }
+      loadProducts();  
+    }, [])
 
     const clients = dataSets.clientes;
 
@@ -74,41 +137,66 @@ export function useSalesDashboard() {
         setIsModalOpen(false);
     };
 
+
+    //HandleDelete é responsável por deletar um cliente, e atualizar o estado local para refletir a mudança
     const handleDelete = async (id) => {
         try {
+            if (activeSection === 'clientes') {
             await deleteClient(id);
+            }else if (activeSection === 'pedidos'){
+                await deleteOrder(id)
+            }else if (activeSection ==='produtos'){
+                await deleteProduct(id)
+            }
+
             setDataSets((prev) => removeItemBySection({ activeSection, id, dataSets: prev }));
-        }catch (error) {
+        } catch (error) {
             console.error('Erro ao deletar cliente:', error);
             return;
         }
     };
 
+    //HandleSave é responsável por criar ou editar um cliente, dependendo se 
+    // estamos editando um item existente ou criando um novo
     const handleSave = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
 
         const payload = buildFormPayload({ activeSection, formData, editing });
-        try{
+        try {
             let responseData;
-            if (editing === null) {
-                responseData = await createClient(payload);
-            } else {
-                responseData = await updateClient(editing.id, payload);
+            if (activeSection === 'clientes') {
+                if (editing === null) {
+                    responseData = await createClient(payload);
+                } else {
+                    responseData = await updateClient(editing.id, payload);
+                }
+            } else if (activeSection === 'pedidos') {
+                if (editing === null) {
+                    responseData = await createOrder(payload)
+                } else {
+                    responseData = await updateOrder(editing.id, payload)
+                }
+            } else if (activeSection === 'produtos') {
+                if (editing === null){
+                    responseData =await createProduct(payload) 
+                }else{
+                    responseData = await updateProduct(editing.id, payload)
+                }
             }
-        setDataSets((prev) =>
-            upsertItemBySection({
-                activeSection,
-                item: responseData,
-                editing,
-                dataSets: prev,
-            })
-        );
+            setDataSets((prev) =>
+                upsertItemBySection({
+                    activeSection,
+                    item: responseData,
+                    editing,
+                    dataSets: prev,
+                })
+            );
 
-        closeModal();
-    } catch (error) {
-        console.error('Erro ao criar ou editar cliente:', error)
-    }
+            closeModal();
+        } catch (error) {
+            console.error('Erro ao criar ou editar:', error)
+        }
     };
 
     return {
@@ -127,5 +215,9 @@ export function useSalesDashboard() {
         clients,
         isLoadingClients,
         clientsError,
+        isLoadingOrders,
+        ordersError,
+        isLoadingProducts,
+        productsError,
     };
 }

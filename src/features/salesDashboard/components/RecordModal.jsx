@@ -81,10 +81,10 @@ function RecordModal({ isOpen, activeSection, sectionData, editing, clients, onC
                 />
               </label>
               <label className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
-                Categoria
+                Descricao
                 <input
-                  name="categoria"
-                  defaultValue={editing?.categoria || ''}
+                  name="descricao"
+                  defaultValue={editing?.descricao || ''}
                   required
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                 />
@@ -103,9 +103,9 @@ function RecordModal({ isOpen, activeSection, sectionData, editing, clients, onC
               <label className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                 Estoque
                 <input
-                  name="estoque"
-                  type="number"
-                  defaultValue={editing?.estoque || ''}
+                  name="ativo"
+                  type="checkbox"
+                  defaultValue={editing?.ativo || ''}
                   required
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                 />

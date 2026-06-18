@@ -58,9 +58,9 @@ export function buildFormPayload({ activeSection, formData, editing }) {
         return {
             id,
             nome: formData.get('nome'),
-            categoria: formData.get('categoria'),
+            descricao: formData.get('descricao'),
             preco: Number(formData.get('preco')),
-            estoque: Number(formData.get('estoque')),
+            ativo: formData.get('ativo') === 'true',
         };
     }
 

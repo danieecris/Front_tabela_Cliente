@@ -9,12 +9,12 @@ export const sectionConfig = {
         title: 'Produtos',
         singular: 'Produto',
         description: 'Cadastre produtos com preco e estoque de forma rapida.',
-        columns: ['Nome', 'Categoria', 'Preco', 'Estoque'],
-    },
+        columns: ['Nome', 'Descricao', 'Preco','Ativo'],
+        },
     pedidos: {
         title: 'Pedidos',
         singular: 'Pedido',
         description: 'Visualize e edite pedidos com valores e datas.',
-        columns: ['Cliente', 'Data', 'Valor Total'],
+        columns: ['ID', 'Data', 'Valor Total'],
     },
 };
