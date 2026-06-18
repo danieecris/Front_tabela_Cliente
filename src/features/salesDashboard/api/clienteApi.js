@@ -1,7 +1,7 @@
 import { apiClient } from '../../../lib/http/apiClient';
 
 const CLIENT_PATH = '/cliente';
-
+//exportando as chamadas para a api de cliente
 export function getClients() {
     return apiClient(CLIENT_PATH);
 }
