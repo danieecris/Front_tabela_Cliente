@@ -109,3 +109,7 @@ function DataTableCard({
 }
 
 export default DataTableCard;
+
+// Este componente é responsável por exibir os dados em formato de tabela, com funcionalidades de busca, edição e exclusão. Ele recebe as seguintes props:
+// - sectionData: um objeto contendo as informações da seção atual (título, descrição e colunas).
+// - activeSection: a seção ativa (clientes, produtos ou vendas).
